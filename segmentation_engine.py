@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from skimage.filters import apply_hysteresis_threshold
 
 def otsu_thresholding(img):
     optimal_threshold_value, resultant_img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
@@ -10,11 +11,7 @@ def adaptive_thresholding(img):
 
 def cca(img):
     num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(img, connectivity=8)
-    dims = []
-    for i in range(1, num_labels):
-        area = stats[i, cv2.CC_STAT_AREA]
-        x, y, w, h = stats[i, cv2.CC_STAT_LEFT], stats[i, cv2.CC_STAT_TOP], stats[i, cv2.CC_STAT_WIDTH], stats[i, cv2.CC_STAT_HEIGHT]
-        (cX, cY) = centroids[i]
-        dims.append((x, y, w, h, area, (cX, cY)))
+    return stats, labels, num_labels, centroids
 
-    return
+def hysteresis_thresholding(img, low: float = 0.9, high: float = 0.95):
+    return apply_hysteresis_threshold(img, low, high).astype(np.uint8)

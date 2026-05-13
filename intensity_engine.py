@@ -59,3 +59,17 @@ def equalize_histogram(image: np.ndarray) -> np.ndarray:
         np.ndarray: Histogram equalized image.
     """
     return cv2.equalizeHist(image)
+
+
+def apply_mask(img:np.ndarray, mask: np.ndarray) -> np.ndarray:
+    """
+    Applies a binary mask to the original image, preserving pixel values where mask is 255.
+
+    Args:
+        img (np.ndarray): Original grayscale image (uint8).
+        mask (np.ndarray): Binary mask image (uint8), where 255 indicates pixels to keep.
+
+    Returns:
+        np.ndarray: Masked image, same shape and dtype as input img.
+    """
+    return cv2.bitwise_and(img, img, mask=mask)
