@@ -10,3 +10,11 @@ def adaptive_thresholding(img):
 
 def cca(img):
     num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(img, connectivity=8)
+    dims = []
+    for i in range(1, num_labels):
+        area = stats[i, cv2.CC_STAT_AREA]
+        x, y, w, h = stats[i, cv2.CC_STAT_LEFT], stats[i, cv2.CC_STAT_TOP], stats[i, cv2.CC_STAT_WIDTH], stats[i, cv2.CC_STAT_HEIGHT]
+        (cX, cY) = centroids[i]
+        dims.append((x, y, w, h, area, (cX, cY)))
+
+    return
